@@ -1,19 +1,21 @@
-version: '3'
-
 services:
   app:
     build: .
     environment:
       CONFIG_ENV: ${CONFIG_ENV}
+      SECRET_KEY: ${SECRET_KEY}
       HTTP_HOST: ${HTTP_HOST}
       HTTP_PORT: ${HTTP_PORT}
       PG_WRITE_CONNECTION_STRING: ${PG_WRITE_CONNECTION_STRING}
       PG_READ_CONNECTION_STRING: ${PG_READ_CONNECTION_STRING}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      DEACTIVATED_JOBS: ${DEACTIVATED_JOBS}
     depends_on:
       - db
     container_name: app
     ports:
-      - '8080:8080'
+      - "8080:8080"
 
   db:
     image: postgres
@@ -22,4 +24,11 @@ services:
       - POSTGRES_PASSWORD=postgres
     container_name: db
     ports:
-      - '5432:5432'
+      - "5432:5432"
+
+  redis:
+    image: redis
+    restart: always
+    container_name: redis
+    ports:
+      - "6379:6379"

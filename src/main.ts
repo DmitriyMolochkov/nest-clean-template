@@ -1,13 +1,16 @@
+import { join } from "path";
+import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
-import { AppModule } from "./app.module";
-import { ConfigDto } from "./infrastructure/config";
 import {
   ExpressAdapter,
   NestExpressApplication,
 } from "@nestjs/platform-express";
-import { Logger, LoggerErrorInterceptor } from "nestjs-pino";
-import { ValidationPipe } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import * as session from "express-session";
+import { Logger, LoggerErrorInterceptor } from "nestjs-pino";
+import * as passport from "passport";
+import { AppModule } from "./app.module";
+import { ConfigDto } from "./infrastructure/config";
 import { PackageJsonDto } from "./infrastructure/packageJson";
 
 function setupSwagger(app: NestExpressApplication): void {
@@ -44,6 +47,17 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
+  app.use(
+    session({
+      secret: config.sessionKey,
+      resave: false,
+      saveUninitialized: false,
+    }),
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
+  app.setBaseViewsDir(join(__dirname, "../..", "views"));
+  app.setViewEngine("ejs");
 
   setupSwagger(app);
 

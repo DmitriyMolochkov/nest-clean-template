@@ -1,3 +1,3 @@
-"*.{ts,js}": eslint
-"*.md": markdownlint
-"*.{ts,js,json,yaml,yml,md}": prettier
+{
+    "src/**/*.{ts,tsx}": ["prettier", "bash -c tsc -p tsconfig.json --skipLibCheck --noEmit", "eslint"]
+}

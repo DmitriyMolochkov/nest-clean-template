@@ -1,5 +1,11 @@
+import { BullMQAdapter } from "@bull-board/api/bullMQAdapter";
+import { BullBoardModule } from "@bull-board/nestjs";
+import { BullModule } from "@nestjs/bullmq";
 import { DynamicModule, Module } from "@nestjs/common";
+
 import { AppController } from "./app.controller";
+import { AppProcessor } from "./app.processor";
+import { JobsModule } from "./jobs/jobs.module";
 
 @Module({})
 export class AppModule {
@@ -11,7 +17,16 @@ export class AppModule {
     return {
       module: AppModule,
       controllers: [AppController],
-      imports: [InfrastructureModule],
+      providers: [AppProcessor],
+      imports: [
+        InfrastructureModule,
+        JobsModule,
+        BullModule.registerQueue({ name: "app" }),
+        BullBoardModule.forFeature({
+          name: "app",
+          adapter: BullMQAdapter,
+        }),
+      ],
     };
   }
 }

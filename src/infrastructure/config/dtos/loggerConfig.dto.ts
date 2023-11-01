@@ -1,4 +1,4 @@
-import { IsBoolean, IsEnum } from "class-validator";
+import { IsEnum } from "class-validator";
 
 export enum LogLevel {
   fatal = "fatal",
@@ -13,7 +13,4 @@ export enum LogLevel {
 export class LoggerConfigDto {
   @IsEnum(LogLevel)
   public readonly level!: LogLevel;
-
-  @IsBoolean()
-  public readonly pretty!: boolean;
 }
