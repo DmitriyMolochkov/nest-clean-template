@@ -1,17 +1,17 @@
-import { Module } from "@nestjs/common";
-import { TypeOrmModule } from "@nestjs/typeorm";
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { ConfigDto } from "../config";
+import { ConfigDto } from '../config';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
       inject: [ConfigDto],
       useFactory: (config: ConfigDto) => ({
-        type: "postgres",
+        type: 'postgres',
         entities: [],
-        logging: "all",
-        logger: "debug",
+        logging: 'all',
+        logger: 'debug',
         extra: {
           max: config.pg.poolSize,
         },

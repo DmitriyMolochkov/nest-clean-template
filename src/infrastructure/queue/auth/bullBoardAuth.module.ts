@@ -1,11 +1,11 @@
-import { Module } from "@nestjs/common";
-import { PassportModule } from "@nestjs/passport";
-import { ConfigDto } from "src/infrastructure/config";
+import { Module } from '@nestjs/common';
+import { PassportModule } from '@nestjs/passport';
+import { ConfigDto } from 'src/infrastructure/config';
 
-import { BullBoardAuthController } from "./bullBoardAuth.controller";
-import { BullBoardAuthService } from "./bullBoardAuth.service";
-import { LocalStrategy } from "./local.startegy";
-import { SessionSerializer } from "./session.serializer";
+import { BullBoardAuthController } from './bullBoardAuth.controller';
+import { BullBoardAuthService } from './bullBoardAuth.service';
+import { LocalStrategy } from './local.startegy';
+import { SessionSerializer } from './session.serializer';
 
 @Module({
   imports: [PassportModule.register({ session: true })],
@@ -15,7 +15,7 @@ import { SessionSerializer } from "./session.serializer";
     LocalStrategy,
     SessionSerializer,
     {
-      provide: "BULL_CONFIG",
+      provide: 'BULL_CONFIG',
       useFactory: (config: ConfigDto) => config.bullBoard,
       inject: [ConfigDto],
     },

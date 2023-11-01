@@ -1,4 +1,10 @@
-import { IsInt, IsIP, IsString, Max, Min } from "class-validator";
+import {
+  IsIP,
+  IsInt,
+  IsString,
+  Max,
+  Min,
+} from 'class-validator';
 
 export class HttpConfigDto {
   @IsInt()

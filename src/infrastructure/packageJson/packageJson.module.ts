@@ -1,9 +1,9 @@
-import * as fs from "fs/promises";
-import * as path from "path";
+import * as fs from 'fs/promises';
+import * as path from 'path';
 
-import { Global, Module } from "@nestjs/common";
+import { Global, Module } from '@nestjs/common';
 
-import { PackageJsonDto } from "./dtos";
+import { PackageJsonDto } from './dtos';
 
 @Global()
 @Module({
@@ -11,10 +11,10 @@ import { PackageJsonDto } from "./dtos";
     {
       provide: PackageJsonDto,
       async useFactory(): Promise<PackageJsonDto> {
-        const packageJsonPath = path.join(process.cwd(), "package.json");
+        const packageJsonPath = path.join(process.cwd(), 'package.json');
 
         return JSON.parse(
-          await fs.readFile(packageJsonPath, "utf8"),
+          await fs.readFile(packageJsonPath, 'utf8'),
         ) as PackageJsonDto;
       },
     },

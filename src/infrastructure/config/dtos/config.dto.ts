@@ -1,12 +1,12 @@
-import { Type } from "class-transformer";
-import { IsDefined, IsString, ValidateNested } from "class-validator";
+import { Type } from 'class-transformer';
+import { IsDefined, IsString, ValidateNested } from 'class-validator';
 
-import { HttpConfigDto } from "./httpConfig.dto";
-import { JobsConfigDto } from "./jobsConfig.dto";
-import { LoggerConfigDto } from "./loggerConfig.dto";
-import { PgConfigDto } from "./pgConfig.dto";
-import { RedisConfigDto } from "./redisConfig.dto";
-import { BullBoardConfigDto } from "./bullBoardConfig.dto";
+import { BullBoardConfigDto } from './bullBoardConfig.dto';
+import { HttpConfigDto } from './httpConfig.dto';
+import { JobsConfigDto } from './jobsConfig.dto';
+import { LoggerConfigDto } from './loggerConfig.dto';
+import { PgConfigDto } from './pgConfig.dto';
+import { RedisConfigDto } from './redisConfig.dto';
 
 export class ConfigDto {
   @IsString()

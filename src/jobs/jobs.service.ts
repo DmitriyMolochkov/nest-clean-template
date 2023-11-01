@@ -1,12 +1,12 @@
-import { Inject, Injectable, OnApplicationBootstrap } from "@nestjs/common";
-import { SchedulerRegistry } from "@nestjs/schedule";
-import { Logger } from "nestjs-pino";
-import { JobsConfigDto } from "src/infrastructure/config/dtos/jobsConfig.dto";
+import { Inject, Injectable, OnApplicationBootstrap } from '@nestjs/common';
+import { SchedulerRegistry } from '@nestjs/schedule';
+import { Logger } from 'nestjs-pino';
+import { JobsConfigDto } from 'src/infrastructure/config/dtos/jobsConfig.dto';
 
 @Injectable()
 export class JobsService implements OnApplicationBootstrap {
   constructor(
-    @Inject("JOBS_CONFIG") private config: JobsConfigDto,
+    @Inject('JOBS_CONFIG') private config: JobsConfigDto,
     private readonly logger: Logger,
     private readonly schedulerRegistry: SchedulerRegistry,
   ) {}
@@ -17,7 +17,7 @@ export class JobsService implements OnApplicationBootstrap {
 
   private shutdownJobs(): void {
     for (const jobName of this.config.deactivatedJobs) {
-      if (this.schedulerRegistry.doesExist("cron", jobName)) {
+      if (this.schedulerRegistry.doesExist('cron', jobName)) {
         this.schedulerRegistry.getCronJob(jobName).stop();
         this.logger.warn(`job ${jobName} stopped!`);
       }

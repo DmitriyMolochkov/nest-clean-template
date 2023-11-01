@@ -1,13 +1,13 @@
-import { IsEnum } from "class-validator";
+import { IsEnum } from 'class-validator';
 
 export enum LogLevel {
-  fatal = "fatal",
-  error = "error",
-  warn = "warn",
-  info = "info",
-  debug = "debug",
-  trace = "trace",
-  silent = "silent",
+  fatal = 'fatal',
+  error = 'error',
+  warn = 'warn',
+  info = 'info',
+  debug = 'debug',
+  trace = 'trace',
+  silent = 'silent',
 }
 
 export class LoggerConfigDto {
