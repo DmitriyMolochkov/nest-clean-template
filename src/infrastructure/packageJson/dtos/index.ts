@@ -1,1 +1,1 @@
-export * from "./package-json.dto";
+export * from "./packageJson.dto";

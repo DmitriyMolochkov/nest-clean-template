@@ -1,11 +1,12 @@
 import { ConfigDto } from "./dtos";
-import { LogLevel } from "./dtos/logger-config.dto";
+import { LogLevel } from "./dtos/loggerConfig.dto";
 
 export const plainConfig: ConfigDto = {
-  configEnv: process.env.CONFIG_ENV as string,
+  configEnv: process.env.CONFIG_ENV,
+  sessionKey: process.env.SECRET_KEY,
   pg: {
-    writeConnectionString: process.env.PG_WRITE_CONNECTION_STRING as string,
-    readConnectionString: process.env.PG_READ_CONNECTION_STRING as string,
+    writeConnectionString: process.env.PG_WRITE_CONNECTION_STRING,
+    readConnectionString: process.env.PG_READ_CONNECTION_STRING,
     connectionTimeout: Number(process.env.PG_CONNECTION_TIMEOUT ?? "60000"),
     poolSize: Number(process.env.PG_POOL_SIZE ?? "10"),
   },
@@ -17,8 +18,18 @@ export const plainConfig: ConfigDto = {
       process.env.HTTP_DEFAULT_CLIENT_TIMEOUT ?? "60000",
     ),
   },
+  bullBoard: {
+    username: process.env.BULL_BOARD_USERNAME ?? "bull",
+    password: process.env.BULL_BOARD_PASSWORD ?? "bull",
+  },
   logger: {
     level: (process.env.LOG_LEVEL ?? LogLevel.info) as LogLevel,
-    pretty: (process.env.LOG_PRETTY ?? "false") === "true",
+  },
+  redis: {
+    host: process.env.REDIS_HOST ?? "localhost",
+    port: Number(process.env.REDIS_PORT ?? "6379"),
+  },
+  jobs: {
+    deactivatedJobs: (process.env.DEACTIVATED_JOBS ?? "").split(","),
   },
 };
