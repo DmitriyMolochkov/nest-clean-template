@@ -1,8 +1,8 @@
-import { Module } from "@nestjs/common";
-import { LoggerModule as PinoLoggerModule } from "nestjs-pino";
+import { Module } from '@nestjs/common';
+import { LoggerModule as PinoLoggerModule } from 'nestjs-pino';
 
-import { ConfigDto } from "../config";
-import { PackageJsonDto } from "../packageJson";
+import { ConfigDto } from '../config';
+import { PackageJsonDto } from '../packageJson';
 
 @Module({
   imports: [
@@ -13,8 +13,8 @@ import { PackageJsonDto } from "../packageJson";
           name: packageJson.name,
           level: config.logger.level,
           transport:
-            config.configEnv === "develop"
-              ? { target: "pino-pretty" }
+            config.configEnv === 'develop'
+              ? { target: 'pino-pretty' }
               : undefined,
         },
       }),

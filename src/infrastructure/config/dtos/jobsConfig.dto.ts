@@ -1,4 +1,4 @@
-import { IsArray, IsDefined } from "class-validator";
+import { IsArray, IsDefined } from 'class-validator';
 
 export class JobsConfigDto {
   @IsDefined()

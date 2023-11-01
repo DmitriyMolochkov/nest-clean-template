@@ -1,10 +1,10 @@
-import { ExpressAdapter } from "@bull-board/express";
-import { BullBoardModule } from "@bull-board/nestjs";
-import { BullModule } from "@nestjs/bullmq";
-import { Module } from "@nestjs/common";
+import { ExpressAdapter } from '@bull-board/express';
+import { BullBoardModule } from '@bull-board/nestjs';
+import { BullModule } from '@nestjs/bullmq';
+import { Module } from '@nestjs/common';
 
-import { BullBoardAuthMiddleware, BullBoardAuthModule } from "./auth";
-import { ConfigDto } from "../config";
+import { BullBoardAuthMiddleware, BullBoardAuthModule } from './auth';
+import { ConfigDto } from '../config';
 
 @Module({
   imports: [
@@ -18,7 +18,7 @@ import { ConfigDto } from "../config";
       }),
     }),
     BullBoardModule.forRoot({
-      route: "/bull/queues",
+      route: '/bull/queues',
       adapter: ExpressAdapter,
       middleware: BullBoardAuthMiddleware,
     }),

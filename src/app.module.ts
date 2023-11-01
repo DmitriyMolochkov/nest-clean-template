@@ -1,17 +1,17 @@
-import { BullMQAdapter } from "@bull-board/api/bullMQAdapter";
-import { BullBoardModule } from "@bull-board/nestjs";
-import { BullModule } from "@nestjs/bullmq";
-import { DynamicModule, Module } from "@nestjs/common";
+import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
+import { BullBoardModule } from '@bull-board/nestjs';
+import { BullModule } from '@nestjs/bullmq';
+import { DynamicModule, Module } from '@nestjs/common';
 
-import { AppController } from "./app.controller";
-import { AppProcessor } from "./app.processor";
-import { JobsModule } from "./jobs/jobs.module";
+import { AppController } from './app.controller';
+import { AppProcessor } from './app.processor';
+import { JobsModule } from './jobs/jobs.module';
 
 @Module({})
 export class AppModule {
   public static async register(): Promise<DynamicModule> {
     const { InfrastructureModule } = await import(
-      "./infrastructure/infrastructure.module"
+      './infrastructure/infrastructure.module'
     );
 
     return {
@@ -21,9 +21,9 @@ export class AppModule {
       imports: [
         InfrastructureModule,
         JobsModule,
-        BullModule.registerQueue({ name: "app" }),
+        BullModule.registerQueue({ name: 'app' }),
         BullBoardModule.forFeature({
-          name: "app",
+          name: 'app',
           adapter: BullMQAdapter,
         }),
       ],

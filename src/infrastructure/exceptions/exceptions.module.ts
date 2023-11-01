@@ -1,11 +1,11 @@
-import { Global, Module } from "@nestjs/common";
-import { APP_FILTER } from "@nestjs/core";
+import { Global, Module } from '@nestjs/common';
+import { APP_FILTER } from '@nestjs/core';
 
 import {
   BaseExceptionFilter,
   CatchAllExceptionFilter,
   UnauthorizedExceptionFilter,
-} from "./exceptionFilters";
+} from './exceptionFilters';
 
 @Global()
 @Module({

@@ -1,17 +1,16 @@
-import { join } from "path";
-import { ValidationPipe } from "@nestjs/common";
-import { NestFactory } from "@nestjs/core";
-import {
-  ExpressAdapter,
-  NestExpressApplication,
-} from "@nestjs/platform-express";
-import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import * as session from "express-session";
-import { Logger, LoggerErrorInterceptor } from "nestjs-pino";
-import * as passport from "passport";
-import { AppModule } from "./app.module";
-import { ConfigDto } from "./infrastructure/config";
-import { PackageJsonDto } from "./infrastructure/packageJson";
+import { join } from 'path';
+
+import { ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { ExpressAdapter, NestExpressApplication } from '@nestjs/platform-express';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as session from 'express-session';
+import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
+import * as passport from 'passport';
+
+import { AppModule } from './app.module';
+import { ConfigDto } from './infrastructure/config';
+import { PackageJsonDto } from './infrastructure/packageJson';
 
 function setupSwagger(app: NestExpressApplication): void {
   const config = app.get(ConfigDto);
@@ -24,7 +23,7 @@ function setupSwagger(app: NestExpressApplication): void {
     .addServer(config.http.swaggerServer)
     .build();
 
-  SwaggerModule.setup("api", app, SwaggerModule.createDocument(app, options));
+  SwaggerModule.setup('api', app, SwaggerModule.createDocument(app, options));
 }
 
 async function bootstrap() {
@@ -56,21 +55,22 @@ async function bootstrap() {
   );
   app.use(passport.initialize());
   app.use(passport.session());
-  app.setBaseViewsDir(join(__dirname, "../..", "views"));
-  app.setViewEngine("ejs");
+  app.setBaseViewsDir(join(__dirname, '../..', 'views'));
+  app.setViewEngine('ejs');
 
   setupSwagger(app);
 
   await app.listen(config.http.port, config.http.host);
 
   logger.log(
-    "Nest application listening on %s",
+    'Nest application listening on %s',
     await app.getUrl(),
-    "NestApplication",
+    'NestApplication',
   );
 }
 
 bootstrap().catch((error) => {
+  // eslint-disable-next-line no-console
   console.error(error);
   process.exit(1);
 });

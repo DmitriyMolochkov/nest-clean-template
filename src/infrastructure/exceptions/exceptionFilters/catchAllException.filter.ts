@@ -3,10 +3,10 @@ import {
   Catch,
   ExceptionFilter,
   UnauthorizedException,
-} from "@nestjs/common";
+} from '@nestjs/common';
 
-import { BaseExceptionFilter } from "./baseException.filter";
-import { UnauthorizedExceptionFilter } from "./unauthorizedException.filter";
+import { BaseExceptionFilter } from './baseException.filter';
+import { UnauthorizedExceptionFilter } from './unauthorizedException.filter';
 
 @Catch()
 export class CatchAllExceptionFilter implements ExceptionFilter<unknown> {

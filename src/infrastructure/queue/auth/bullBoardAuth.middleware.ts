@@ -1,9 +1,5 @@
-import {
-  Injectable,
-  NestMiddleware,
-  UnauthorizedException,
-} from "@nestjs/common";
-import { NextFunction, Request, Response } from "express";
+import { Injectable, NestMiddleware, UnauthorizedException } from '@nestjs/common';
+import { NextFunction, Request, Response } from 'express';
 
 @Injectable()
 export class BullBoardAuthMiddleware implements NestMiddleware {
