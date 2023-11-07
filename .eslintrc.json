@@ -32,7 +32,7 @@
     "unused-imports",
     "jest"
   ],
-  "ignorePatterns": ["dist/**", ".eslintrc.json"],
+  "ignorePatterns": ["dist/**", "coverage/**"],
   "rules": {
     "@typescript-eslint/type-annotation-spacing": "error",
     "@typescript-eslint/member-delimiter-style": "error",
