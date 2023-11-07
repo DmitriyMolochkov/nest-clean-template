@@ -6,13 +6,14 @@
   },
   "extends": [
     "eslint:recommended",
+    "plugin:node/recommended",
     "plugin:import/recommended",
     "airbnb-base",
     "airbnb-typescript/base",
     "plugin:import/typescript",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
-    "prettier"
+    "plugin:@typescript-eslint/strict"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -69,6 +70,12 @@
         "ignoreStatic": true
       }
     ],
+    "@typescript-eslint/no-extraneous-class": [
+      "error",
+      {
+        "allowWithDecorator": true
+      }
+    ],
     "no-trailing-spaces": [
       "error",
       {
@@ -84,6 +91,8 @@
     ],
     "quotes": ["error", "single"],
     "func-names": ["warn", "as-needed"],
+    "curly": ["error", "all"],
+    "brace-style": ["error", "1tbs"],
     "node/no-unpublished-import": "off",
     "node/no-missing-import": "off",
     "arrow-body-style": "off",
@@ -114,6 +123,10 @@
         "items": 3,
         "max-len": 100
       }
+    ],
+    "node/no-unsupported-features/es-syntax": [
+      "error",
+      { "ignores": ["modules"] }
     ],
     "unused-imports/no-unused-imports": "warn",
     "unused-imports/no-unused-vars": [
@@ -152,6 +165,12 @@
         }
       }
     ]
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": true,
+      "node": true
+    }
   },
   "overrides": [
     {

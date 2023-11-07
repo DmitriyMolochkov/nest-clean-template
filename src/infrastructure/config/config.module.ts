@@ -1,8 +1,9 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { plainToClass } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 
 import { ConfigDto } from './dtos';
+import { plainConfig } from './plainConfig';
 
 @Module({})
 export class ConfigModule {
@@ -28,9 +29,7 @@ export class ConfigModule {
   }
 
   private static async loadConfig(): Promise<ConfigDto> {
-    const { plainConfig } = await import('./plainConfig');
-
-    return plainToClass(ConfigDto, plainConfig);
+    return plainToInstance(ConfigDto, plainConfig);
   }
 
   private static async validateConfig(config: ConfigDto): Promise<void> {

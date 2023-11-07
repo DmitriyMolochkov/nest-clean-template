@@ -4,9 +4,9 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter, NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as session from 'express-session';
+import session from 'express-session';
 import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
-import * as passport from 'passport';
+import passport from 'passport';
 
 import { AppModule } from './app.module';
 import { ConfigDto } from './infrastructure/config';

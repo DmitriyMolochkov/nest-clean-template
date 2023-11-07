@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
-import { ConfigDto } from 'src/infrastructure/config';
+
+import { ConfigDto } from 'infrastructure/config';
 
 import { BullBoardAuthController } from './bullBoardAuth.controller';
 import { BullBoardAuthService } from './bullBoardAuth.service';
