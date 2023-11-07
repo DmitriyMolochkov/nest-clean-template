@@ -4,6 +4,11 @@
     "rootDir": "./",
   },
   "exclude": [
-    "./dist",
+    "node_modules",
+    "tests",
+    "dist",
+    "**/?(*.)+(spec).[jt]s?(x)",
+    "coverage",
+    "jest.spec.config.ts"
   ]
 }

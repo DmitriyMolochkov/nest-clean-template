@@ -5,15 +5,12 @@ import { DynamicModule, Module } from '@nestjs/common';
 
 import { AppController } from './app.controller';
 import { AppProcessor } from './app.processor';
+import { InfrastructureModule } from './infrastructure/infrastructure.module';
 import { JobsModule } from './jobs/jobs.module';
 
 @Module({})
 export class AppModule {
   public static async register(): Promise<DynamicModule> {
-    const { InfrastructureModule } = await import(
-      './infrastructure/infrastructure.module'
-    );
-
     return {
       module: AppModule,
       controllers: [AppController],

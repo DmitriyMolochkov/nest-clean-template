@@ -13,11 +13,12 @@ import { LocalAuthGuard } from './localAuth.guard';
 
 @Controller('bull')
 export class BullBoardAuthController {
-
   @ApiExcludeEndpoint()
   @Get('/auth')
   view(@Req() req: Request, @Res() res: Response): void {
-    if (req.isAuthenticated()) return res.redirect('/bull/queues');
+    if (req.isAuthenticated()) {
+      return res.redirect('/bull/queues');
+    }
 
     return res.render('auth');
   }

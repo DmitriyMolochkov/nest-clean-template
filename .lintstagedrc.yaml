@@ -1,3 +1,0 @@
-{
-    "src/**/*.{ts,tsx}": ["prettier", "bash -c tsc -p tsconfig.json --skipLibCheck --noEmit", "eslint"]
-}

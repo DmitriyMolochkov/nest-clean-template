@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
-import { ConfigDto } from 'src/infrastructure/config';
+
+import { ConfigDto } from 'infrastructure/config';
 
 import { JobsService } from './jobs.service';
 

@@ -1,5 +1,4 @@
-import { ConfigDto } from './dtos';
-import { LogLevel } from './dtos/loggerConfig.dto';
+import { ConfigDto, LogLevel } from './dtos';
 
 export const plainConfig: ConfigDto = {
   configEnv: process.env.CONFIG_ENV,

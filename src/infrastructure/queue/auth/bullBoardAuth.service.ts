@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { BullBoardConfigDto } from 'src/infrastructure/config';
+
+import { BullBoardConfigDto } from 'infrastructure/config';
 
 @Injectable()
 export class BullBoardAuthService {
@@ -8,7 +9,9 @@ export class BullBoardAuthService {
   ) {}
 
   validate(username: string, password: string): boolean {
-    if (username === this.config.username && password === this.config.password) return true;
+    if (username === this.config.username && password === this.config.password) {
+      return true;
+    }
 
     return false;
   }

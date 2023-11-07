@@ -4,7 +4,10 @@ import { NextFunction, Request, Response } from 'express';
 @Injectable()
 export class BullBoardAuthMiddleware implements NestMiddleware {
   use(req: Request, _res: Response, next: NextFunction) {
-    if (!req.isAuthenticated()) throw new UnauthorizedException();
+    if (!req.isAuthenticated()) {
+      throw new UnauthorizedException();
+    }
+
     next();
   }
 }
