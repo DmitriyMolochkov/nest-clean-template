@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { User } from 'users';
+
 import { ConfigDto } from '../config';
 
 @Module({
@@ -9,7 +11,7 @@ import { ConfigDto } from '../config';
       inject: [ConfigDto],
       useFactory: (config: ConfigDto) => ({
         type: 'postgres',
-        entities: [],
+        entities: [User],
         logging: 'all',
         logger: 'debug',
         extra: {

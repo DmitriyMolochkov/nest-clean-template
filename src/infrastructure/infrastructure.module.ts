@@ -8,6 +8,7 @@ import { LoggerModule } from './logger/logger.module';
 import { PackageJsonModule } from './packageJson/packageJson.module';
 import { PostgresModule } from './postgres/postgres.module';
 import { QueueModule } from './queue/queue.module';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { QueueModule } from './queue/queue.module';
     QueueModule,
     HealthCheckModule,
     ExceptionsModule,
+    RedisModule,
   ],
 })
 export class InfrastructureModule {}

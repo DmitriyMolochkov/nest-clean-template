@@ -2,12 +2,13 @@ import { Inject, Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { SchedulerRegistry } from '@nestjs/schedule';
 import { Logger } from 'nestjs-pino';
 
+import { JOBS_CONFIG } from 'common/constants';
 import { JobsConfigDto } from 'infrastructure/config/dtos/jobsConfig.dto';
 
 @Injectable()
 export class JobsService implements OnApplicationBootstrap {
   constructor(
-    @Inject('JOBS_CONFIG') private config: JobsConfigDto,
+    @Inject(JOBS_CONFIG) private config: JobsConfigDto,
     private readonly logger: Logger,
     private readonly schedulerRegistry: SchedulerRegistry,
   ) {}

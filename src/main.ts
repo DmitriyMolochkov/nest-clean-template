@@ -21,6 +21,7 @@ function setupSwagger(app: NestExpressApplication): void {
     .setVersion(packageJson.version)
     .setDescription(packageJson.description)
     .addServer(config.http.swaggerServer)
+    .addBearerAuth()
     .build();
 
   SwaggerModule.setup('api', app, SwaggerModule.createDocument(app, options));
