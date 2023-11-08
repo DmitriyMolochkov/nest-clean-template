@@ -1,11 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 
+import { BULL_CONFIG } from 'common/constants';
 import { BullBoardConfigDto } from 'infrastructure/config';
 
 @Injectable()
 export class BullBoardAuthService {
   constructor(
-    @Inject('BULL_CONFIG') private readonly config: BullBoardConfigDto,
+    @Inject(BULL_CONFIG) private readonly config: BullBoardConfigDto,
   ) {}
 
   validate(username: string, password: string): boolean {

@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 
+import { JOBS_CONFIG } from 'common/constants';
 import { ConfigDto } from 'infrastructure/config';
 
 import { JobsService } from './jobs.service';
@@ -8,7 +9,7 @@ import { JobsService } from './jobs.service';
   providers: [
     JobsService,
     {
-      provide: 'JOBS_CONFIG',
+      provide: JOBS_CONFIG,
       useFactory: (config: ConfigDto) => config.jobs,
       inject: [ConfigDto],
     },

@@ -1,5 +1,7 @@
 import { DataSource } from 'typeorm';
 
+import { User } from 'users';
+
 export default new DataSource({
   type: 'postgres',
   migrations: [`${__dirname}/migrations/*{.ts,.js}`],
@@ -7,4 +9,5 @@ export default new DataSource({
   logger: 'advanced-console',
   url: process.env.PG_WRITE_CONNECTION_STRING,
   connectTimeoutMS: Number(process.env.PG_CONNECTION_TIMEOUT ?? '60000'),
+  entities: [User],
 });
