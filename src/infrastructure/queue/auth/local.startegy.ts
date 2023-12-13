@@ -6,11 +6,11 @@ import { BullBoardAuthService } from './bullBoardAuth.service';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
-  constructor(private readonly authService: BullBoardAuthService) {
+  public constructor(private readonly authService: BullBoardAuthService) {
     super();
   }
 
-  validate(
+  public validate(
     username: string,
     password: string,
   ): { username: string } {

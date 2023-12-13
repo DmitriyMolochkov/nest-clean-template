@@ -1,21 +1,21 @@
-import { Global, Module } from '@nestjs/common';
-import { Redis } from 'ioredis';
+import { DynamicModule, Module } from '@nestjs/common';
+import { RedisOptions } from 'bullmq';
 
-import { ConfigDto } from '../config';
+import { createRedisProviders } from './redis.providers';
+import { RedisConnectionName } from '../config/dtos/redisConfigGroup.dto';
 
-@Global()
-@Module({
-  providers: [
-    {
-      provide: Redis,
-      useFactory: (config: ConfigDto) => new Redis(
-        config.redis.port,
-        config.redis.host,
-        { maxRetriesPerRequest: null },
-      ),
-      inject: [ConfigDto],
-    },
-  ],
-  exports: [Redis],
-})
-export class RedisModule {}
+@Module({})
+export class RedisModule {
+  public static forRoot(
+    optionsArray: (RedisOptions & { connectionName: RedisConnectionName })[],
+  ): DynamicModule {
+    const providers = createRedisProviders(optionsArray);
+
+    return {
+      global: true,
+      module: RedisModule,
+      providers,
+      exports: providers,
+    };
+  }
+}

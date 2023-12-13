@@ -1,6 +1,5 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Redis } from 'ioredis';
 
 import { JWT_CONFIG, USER_REFRESH_TOKEN_KEY_PREFIX } from 'common/constants';
 import { IUser } from 'common/contracts';
@@ -9,15 +8,18 @@ import { LdapService, UsersService } from 'users';
 
 import { LoginDto } from './dto';
 import { validatePassword } from './utils';
+import { RedisConnectionName } from '../infrastructure/config/dtos/redisConfigGroup.dto';
+import RedisClient from '../infrastructure/redis/redis.client';
+import { InjectRedis } from '../infrastructure/redis/redis.decorators';
 
 @Injectable()
 export class AuthService {
-  constructor(
+  public constructor(
     @Inject(JWT_CONFIG) private readonly jwtConfig: JWTConfigDto,
     private readonly usersService: UsersService,
     private readonly ldapService: LdapService,
     private readonly jwtService: JwtService,
-    private readonly cache: Redis,
+    @InjectRedis(RedisConnectionName.default) private readonly cache: RedisClient,
   ) {}
 
   public async login({ login, password }: LoginDto) {

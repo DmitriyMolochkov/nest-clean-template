@@ -5,7 +5,10 @@ import { LdapConfigDto } from 'infrastructure/config';
 
 @Injectable()
 export class LdapService {
-  constructor(private ldapClient: Client, private ldapConfig: LdapConfigDto) {
+  public constructor(
+    private ldapClient: Client,
+    private ldapConfig: LdapConfigDto,
+  ) {
     ldapClient.on('error', () => {});
   }
 

@@ -50,6 +50,7 @@
         "allowSingleExtends": true
       }
     ],
+    "@typescript-eslint/explicit-member-accessibility": "error",
     "@typescript-eslint/lines-between-class-members": [
       "error",
       "always",

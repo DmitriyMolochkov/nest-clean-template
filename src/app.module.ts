@@ -7,8 +7,7 @@ import { AppController } from './app.controller';
 import { AppProcessor } from './app.processor';
 import { AuthModule } from './auth/auth.module';
 import { InfrastructureModule } from './infrastructure/infrastructure.module';
-import { JobsModule } from './jobs/jobs.module';
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './users';
 
 @Module({})
 export class AppModule {
@@ -19,7 +18,6 @@ export class AppModule {
       providers: [AppProcessor],
       imports: [
         InfrastructureModule,
-        JobsModule,
         BullModule.registerQueue({ name: 'app' }),
         BullBoardModule.forFeature({
           name: 'app',

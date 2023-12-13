@@ -1,18 +1,27 @@
 import { Type } from 'class-transformer';
-import { IsDefined, IsString, ValidateNested } from 'class-validator';
+import {
+  IsDefined,
+  IsEnum,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 
 import { BullBoardConfigDto } from './bullBoardConfig.dto';
 import { HttpConfigDto } from './httpConfig.dto';
-import { JobsConfigDto } from './jobsConfig.dto';
 import { JWTConfigDto } from './jwtConfig.dto';
 import { LdapConfigDto } from './ldapConfig.dto';
 import { LoggerConfigDto } from './loggerConfig.dto';
 import { PgConfigDto } from './pgConfig.dto';
-import { RedisConfigDto } from './redisConfig.dto';
+import { RedisConfigGroupDto } from './redisConfigGroup.dto';
+
+export enum Environment {
+  development = 'development',
+  production = 'production',
+}
 
 export class ConfigDto {
-  @IsString()
-  public readonly configEnv!: string;
+  @IsEnum(Environment)
+  public readonly configEnv!: Environment;
 
   @IsDefined()
   @IsString()
@@ -43,15 +52,10 @@ export class ConfigDto {
   @ValidateNested()
   public readonly logger!: LoggerConfigDto;
 
-  @Type(() => RedisConfigDto)
+  @Type(() => RedisConfigGroupDto)
   @IsDefined()
   @ValidateNested()
-  public readonly redis!: RedisConfigDto;
-
-  @Type(() => JobsConfigDto)
-  @IsDefined()
-  @ValidateNested()
-  public readonly jobs!: JobsConfigDto;
+  public readonly redisGroups!: RedisConfigGroupDto;
 
   @Type(() => BullBoardConfigDto)
   @IsDefined()

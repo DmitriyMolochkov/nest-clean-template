@@ -5,7 +5,7 @@ import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter, NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import session from 'express-session';
-import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
+import { Logger, LoggerErrorInterceptor, PinoLogger } from 'nestjs-pino';
 import passport from 'passport';
 
 import { AppModule } from './app.module';
@@ -37,9 +37,10 @@ async function bootstrap() {
   );
 
   const config = app.get(ConfigDto);
-  const logger = app.get(Logger);
+  const logger = await app.resolve(PinoLogger);
+  logger.setContext('NestApplication');
 
-  app.useLogger(logger);
+  app.useLogger(app.get(Logger));
   app.useGlobalInterceptors(new LoggerErrorInterceptor());
   app.useGlobalPipes(
     new ValidationPipe({
@@ -61,13 +62,11 @@ async function bootstrap() {
 
   setupSwagger(app);
 
+  app.enableShutdownHooks();
+
   await app.listen(config.http.port, config.http.host);
 
-  logger.log(
-    'Nest application listening on %s',
-    await app.getUrl(),
-    'NestApplication',
-  );
+  logger.info(`Nest application listening on ${await app.getUrl()}`);
 }
 
 bootstrap().catch((error) => {

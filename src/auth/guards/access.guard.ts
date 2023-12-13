@@ -16,14 +16,14 @@ import { AuthGuard } from './auth.guard';
 
 @Injectable()
 export class AccessGuard extends AuthGuard implements CanActivate {
-  constructor(
+  public constructor(
     @Inject(JWT_CONFIG) private readonly jwtConfig: JWTConfigDto,
     private readonly jwtService: JwtService,
   ) {
     super();
   }
 
-  async canActivate(context: ExecutionContext): Promise<boolean> {
+  public async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
     const token = this.extractTokenFromHeader(request);
     if (!token) {

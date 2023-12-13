@@ -6,9 +6,13 @@ import { User } from './entity';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {}
+  public constructor(
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+  ) {}
 
   public async findByLogin(login: string): Promise<User | null> {
-    return this.userRepository.findOne({ where: { login } });
+    const user = await this.userRepository.findOne({ where: { login } });
+
+    return user;
   }
 }

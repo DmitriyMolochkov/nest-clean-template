@@ -28,7 +28,6 @@ $ docker-compose exec app npm run migration:run
 - Default login/password - bull/bull or change envs **BULL_BOARD_USERNAME** and **BULL_BOARD_PASSWORD**
 
 ## Other
-- Cron Jobs - **JobsModule**
 - Redis Cache - **RedisModule**
 - PostgreSQL - **PostgresModule**
 - Pino Logger - **LoggerModule**

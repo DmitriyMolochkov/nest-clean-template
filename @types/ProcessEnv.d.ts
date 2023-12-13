@@ -41,9 +41,6 @@ declare interface ProcessEnv extends Dict<string> {
   REDIS_HOST: string | undefined;
   REDIS_PORT: string | undefined;
 
-  // jobs
-  DEACTIVATED_JOBS: string | undefined;
-
   // typeorm
   TYPEORM_MIGRATIONS_TRANSACTION_MODE: 'all' | 'each' | undefined;
 }

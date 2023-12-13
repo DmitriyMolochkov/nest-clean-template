@@ -23,7 +23,7 @@ import { extractTokenFromHeader } from './utils';
   version: '1',
 })
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  public constructor(private readonly authService: AuthService) {}
   @Post('login')
   public async login(@Body() body: LoginDto) {
     return this.authService.login(body);

@@ -1,16 +1,18 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Job } from 'bullmq';
-import { Logger } from 'nestjs-pino';
+import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 
 @Processor('app')
 export class AppProcessor extends WorkerHost {
-  constructor(private readonly logger: Logger) {
+  public constructor(
+    @InjectPinoLogger(AppProcessor.name) private readonly logger: PinoLogger,
+  ) {
     super();
   }
 
-  async process(job: Job): Promise<void> {
-    this.logger.log('Start processor...');
-    this.logger.log(job.data);
-    this.logger.log('Completed');
+  public async process(job: Job): Promise<void> {
+    this.logger.info('Start processor...');
+    this.logger.info(job.data);
+    this.logger.info('Completed');
   }
 }

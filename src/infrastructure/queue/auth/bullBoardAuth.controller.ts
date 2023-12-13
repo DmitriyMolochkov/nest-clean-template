@@ -15,7 +15,7 @@ import { LocalAuthGuard } from './localAuth.guard';
 export class BullBoardAuthController {
   @ApiExcludeEndpoint()
   @Get('/auth')
-  view(@Req() req: Request, @Res() res: Response): void {
+  public view(@Req() req: Request, @Res() res: Response): void {
     if (req.isAuthenticated()) {
       return res.redirect('/bull/queues');
     }
@@ -26,7 +26,7 @@ export class BullBoardAuthController {
   @ApiExcludeEndpoint()
   @UseGuards(LocalAuthGuard)
   @Post('/login')
-  login(@Res() res: Response): void {
+  public login(@Res() res: Response): void {
     return res.redirect('/bull/queues');
   }
 }
