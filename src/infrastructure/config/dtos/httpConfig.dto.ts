@@ -2,14 +2,13 @@ import {
   IsIP,
   IsInt,
   IsString,
-  Max,
   Min,
 } from 'class-validator';
 
+import { IsPort } from 'common/classValidator';
+
 export class HttpConfigDto {
-  @IsInt()
-  @Min(1)
-  @Max(65_535)
+  @IsPort()
   public readonly port!: number;
 
   @IsIP()

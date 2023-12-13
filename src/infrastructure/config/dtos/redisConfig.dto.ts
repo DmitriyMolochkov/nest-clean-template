@@ -1,16 +1,11 @@
-import {
-  IsInt,
-  IsString,
-  Max,
-  Min,
-} from 'class-validator';
+import { IsString } from 'class-validator';
+
+import { IsPort } from 'common/classValidator';
 
 export class RedisConfigDto {
   @IsString()
   public readonly host!: string;
 
-  @IsInt()
-  @Min(1)
-  @Max(65_535)
+  @IsPort()
   public readonly port!: number;
 }
