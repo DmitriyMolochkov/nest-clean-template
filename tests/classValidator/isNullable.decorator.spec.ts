@@ -1,6 +1,6 @@
 import { IS_EMAIL, Validator } from 'class-validator';
 
-import { UserCreateModel, UserSex } from '../models';
+import { UserCreateModel, UserSex } from './models';
 
 const validator = new Validator();
 
