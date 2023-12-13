@@ -5,4 +5,3 @@ export * from './loggerConfig.dto';
 export * from './redisConfig.dto';
 export * from './bullBoardConfig.dto';
 export * from './jwtConfig.dto';
-export * from './ldapConfig.dto';

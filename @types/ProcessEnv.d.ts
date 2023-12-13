@@ -6,18 +6,6 @@ declare interface ProcessEnv extends Dict<string> {
   SESSION_SECRET_KEY: string;
   NODE_TLS_REJECT_UNAUTHORIZED: string;
 
-  // jwt
-  ACCESS_TOKEN_SECRET_KEY: string;
-  REFRESH_TOKEN_SECRET_KEY: string;
-  ACCESS_TOKEN_TTL: string;
-  REFRESH_TOKEN_TTL: string;
-
-  // ldap
-  LDAP_URL: string;
-  LDAP_LOGIN: string;
-  LDAP_PASSWORD: string;
-  LDAP_DC: string;
-
   // postgres
   PG_WRITE_CONNECTION_STRING: string;
   PG_READ_CONNECTION_STRING: string;

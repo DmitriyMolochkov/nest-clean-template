@@ -8,8 +8,6 @@ import {
 
 import { BullBoardConfigDto } from './bullBoardConfig.dto';
 import { HttpConfigDto } from './httpConfig.dto';
-import { JWTConfigDto } from './jwtConfig.dto';
-import { LdapConfigDto } from './ldapConfig.dto';
 import { LoggerConfigDto } from './loggerConfig.dto';
 import { PgConfigDto } from './pgConfig.dto';
 import { RedisConfigGroupDto } from './redisConfigGroup.dto';
@@ -26,16 +24,6 @@ export class ConfigDto {
   @IsDefined()
   @IsString()
   public readonly sessionKey!: string;
-
-  @Type(() => JWTConfigDto)
-  @IsDefined()
-  @ValidateNested()
-  public readonly jwt!: JWTConfigDto;
-
-  @Type(() => LdapConfigDto)
-  @IsDefined()
-  @ValidateNested()
-  public readonly ldap!: LdapConfigDto;
 
   @Type(() => PgConfigDto)
   @IsDefined()

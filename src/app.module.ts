@@ -5,9 +5,7 @@ import { DynamicModule, Module } from '@nestjs/common';
 
 import { AppController } from './app.controller';
 import { AppProcessor } from './app.processor';
-import { AuthModule } from './auth/auth.module';
 import { InfrastructureModule } from './infrastructure/infrastructure.module';
-import { UsersModule } from './users';
 
 @Module({})
 export class AppModule {
@@ -23,8 +21,6 @@ export class AppModule {
           name: 'app',
           adapter: BullMQAdapter,
         }),
-        UsersModule,
-        AuthModule,
       ],
     };
   }
