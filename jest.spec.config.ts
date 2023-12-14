@@ -18,6 +18,7 @@ const jestSpecConfig: JestConfigWithTsJest = {
     '**/*.(t|j)s',
   ],
   coverageDirectory: '../coverage',
+  modulePaths: ['<rootDir>/src'],
 };
 
 export default jestSpecConfig;

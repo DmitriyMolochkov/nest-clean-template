@@ -1,20 +1,9 @@
-import { ConfigDto, LogLevel } from './dtos';
+import { ConfigDto, Environment, LogLevel } from './dtos';
+import { RedisConnectionName } from './dtos/redisConfigGroup.dto';
 
 export const plainConfig: ConfigDto = {
-  configEnv: process.env.CONFIG_ENV,
+  configEnv: process.env.CONFIG_ENV as Environment,
   sessionKey: process.env.SESSION_SECRET_KEY,
-  jwt: {
-    access_secret: process.env.ACCESS_TOKEN_SECRET_KEY,
-    refresh_secret: process.env.REFRESH_TOKEN_SECRET_KEY,
-    access_ttl: process.env.ACCESS_TOKEN_TTL ?? '300s',
-    refresh_ttl: process.env.REFRESH_TOKEN_TTL ?? '7d',
-  },
-  ldap: {
-    url: process.env.LDAP_URL,
-    login: process.env.LDAP_LOGIN,
-    password: process.env.LDAP_PASSWORD,
-    dc: process.env.LDAP_DC,
-  },
   pg: {
     writeConnectionString: process.env.PG_WRITE_CONNECTION_STRING,
     readConnectionString: process.env.PG_READ_CONNECTION_STRING,
@@ -34,11 +23,10 @@ export const plainConfig: ConfigDto = {
   logger: {
     level: (process.env.LOG_LEVEL ?? LogLevel.info) as LogLevel,
   },
-  redis: {
-    host: process.env.REDIS_HOST ?? 'localhost',
-    port: Number(process.env.REDIS_PORT ?? '6379'),
-  },
-  jobs: {
-    deactivatedJobs: (process.env.DEACTIVATED_JOBS ?? '').split(','),
+  redisGroups: {
+    [RedisConnectionName.default]: {
+      host: process.env.REDIS_HOST ?? 'localhost',
+      port: Number(process.env.REDIS_PORT ?? '6379'),
+    },
   },
 };

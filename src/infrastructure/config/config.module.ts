@@ -3,6 +3,7 @@ import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 
 import { ConfigDto } from './dtos';
+import { RedisConfigGroupDto } from './dtos/redisConfigGroup.dto';
 import { plainConfig } from './plainConfig';
 
 @Module({})
@@ -16,8 +17,13 @@ export class ConfigModule {
           provide: ConfigDto,
           useFactory: () => ConfigModule.configFactory(),
         },
+        {
+          provide: RedisConfigGroupDto,
+          useFactory: (config: ConfigDto) => config.redisGroups,
+          inject: [ConfigDto],
+        },
       ],
-      exports: [ConfigDto],
+      exports: [ConfigDto, RedisConfigGroupDto],
     };
   }
 

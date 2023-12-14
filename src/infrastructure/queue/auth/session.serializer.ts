@@ -3,11 +3,11 @@ import { PassportSerializer } from '@nestjs/passport';
 
 @Injectable()
 export class SessionSerializer extends PassportSerializer {
-  serializeUser(user: unknown, done: (err: Error | null, user: unknown) => void): void {
+  public serializeUser(user: unknown, done: (err: Error | null, user: unknown) => void): void {
     done(null, user);
   }
 
-  deserializeUser(
+  public deserializeUser(
     payload: string,
     done: (err: Error | null, payload: string) => void,
   ): void {

@@ -9,7 +9,7 @@ import { Queue } from 'bullmq';
   version: '1',
 })
 export class AppController {
-  constructor(@InjectQueue('app') private readonly appQueue: Queue) {}
+  public constructor(@InjectQueue('app') private readonly appQueue: Queue) {}
 
   @Get()
   public async hello(): Promise<string> {
