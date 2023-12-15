@@ -1,3 +1,5 @@
+import path from 'path';
+
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -9,7 +11,7 @@ import { ConfigDto } from '../config';
       inject: [ConfigDto],
       useFactory: (config: ConfigDto) => ({
         type: 'postgres',
-        entities: [],
+        entities: [path.join(__dirname, '..', '..', '**', 'entities', '*.entity{.ts,.js}')],
         logging: 'all',
         logger: 'debug',
         extra: {

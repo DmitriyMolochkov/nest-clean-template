@@ -1,6 +1,6 @@
 import { join } from 'path';
 
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter, NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -40,6 +40,10 @@ async function bootstrap() {
   const logger = await app.resolve(PinoLogger);
   logger.setContext('NestApplication');
 
+  app.setGlobalPrefix('/api');
+  app.enableVersioning({
+    type: VersioningType.URI,
+  });
   app.useLogger(app.get(Logger));
   app.useGlobalInterceptors(new LoggerErrorInterceptor());
   app.useGlobalPipes(
