@@ -6,16 +6,14 @@ import {
   ValidateNested,
 } from 'class-validator';
 
-import { BullBoardConfig } from './bull-board.config';
-import { HttpConfig } from './http.config';
-import { LoggerConfig } from './logger.config';
-import { PgConfig } from './pg.config';
-import { RedisGroupConfig } from './redis-group.config';
-
-export enum Environment {
-  development = 'development',
-  production = 'production',
-}
+import { Environment } from './enums';
+import {
+  BullBoardConfig,
+  HttpConfig,
+  LoggerConfig,
+  PgConfig,
+  RedisGroupConfig,
+} from './parts';
 
 export class Config {
   @IsEnum(Environment)

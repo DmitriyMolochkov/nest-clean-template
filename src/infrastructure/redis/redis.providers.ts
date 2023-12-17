@@ -2,9 +2,10 @@ import { Provider } from '@nestjs/common';
 import { RedisOptions } from 'bullmq';
 import { PinoLogger } from 'nestjs-pino';
 
+import { RedisConnectionName, RedisGroupConfig } from 'infrastructure/config';
+
 import RedisClient from './redis.client';
 import { getRedisToken } from './utils';
-import { RedisConnectionName, RedisGroupConfig } from '../config/dtos/redis-group.config';
 
 export function createRedisProviders(
   optionsArray: (RedisOptions & { connectionName: RedisConnectionName })[],

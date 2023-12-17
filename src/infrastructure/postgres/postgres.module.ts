@@ -3,7 +3,7 @@ import path from 'path';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { Config } from '../config';
+import { Config } from 'infrastructure/config';
 
 @Module({
   imports: [

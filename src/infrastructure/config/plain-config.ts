@@ -1,5 +1,5 @@
-import { Config, Environment, LogLevel } from './dtos';
-import { RedisConnectionName } from './dtos/redis-group.config';
+import { Config } from './config';
+import { Environment, LogLevel, RedisConnectionName } from './enums';
 
 export const plainConfig: Config = {
   configEnv: process.env.CONFIG_ENV as Environment,

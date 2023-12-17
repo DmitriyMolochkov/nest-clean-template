@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { LoggerModule as PinoLoggerModule } from 'nestjs-pino';
 import pino from 'pino';
 
-import { Config, Environment } from '../config';
-import { PackageJson } from '../package-json';
+import { Config, Environment } from 'infrastructure/config';
+import { PackageJson } from 'infrastructure/package-json';
 
 const pinoConfigsObj: Record<Environment, pino.LoggerOptions> = {
   development: {

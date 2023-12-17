@@ -1,7 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 
-import { PackageJson } from './dtos';
+import { PackageJson } from './package-json';
 import pkgJson from '../../../package.json';
 
 @Global()

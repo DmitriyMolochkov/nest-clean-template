@@ -3,11 +3,12 @@ import { BullBoardModule } from '@bull-board/nestjs';
 import { BullModule } from '@nestjs/bullmq';
 import { Module } from '@nestjs/common';
 
+import { RedisConnectionName } from 'infrastructure/config';
+import { PackageJson } from 'infrastructure/package-json';
+import RedisClient from 'infrastructure/redis/redis.client';
+import { getRedisToken } from 'infrastructure/redis/utils';
+
 import { BullBoardAuthMiddleware, BullBoardAuthModule } from './auth';
-import { RedisConnectionName } from '../config';
-import { PackageJson } from '../package-json';
-import RedisClient from '../redis/redis.client';
-import { getRedisToken } from '../redis/utils';
 
 @Module({
   imports: [
