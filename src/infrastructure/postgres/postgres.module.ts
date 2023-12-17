@@ -3,31 +3,31 @@ import path from 'path';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { Config } from 'infrastructure/config';
+import { PgConfig } from 'infrastructure/config';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      inject: [Config],
-      useFactory: (config: Config) => ({
+      inject: [PgConfig],
+      useFactory: (config: PgConfig) => ({
         type: 'postgres',
         entities: [path.join(__dirname, '..', '..', '**', 'entities', '*.entity{.ts,.js}')],
         logging: 'all',
         logger: 'debug',
         extra: {
-          max: config.pg.poolSize,
+          max: config.poolSize,
         },
         replication: {
           master: {
-            url: config.pg.writeConnectionString,
+            url: config.writeConnectionString,
           },
           slaves: [
             {
-              url: config.pg.readConnectionString,
+              url: config.readConnectionString,
             },
           ],
         },
-        connectTimeoutMS: config.pg.connectionTimeout,
+        connectTimeoutMS: config.connectionTimeout,
       }),
     }),
   ],
