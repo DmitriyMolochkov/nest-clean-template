@@ -1,12 +1,12 @@
 import { Module, OnApplicationShutdown } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
 
+import { RedisConnectionName } from './config';
 import { ConfigModule } from './config/config.module';
-import { RedisConnectionName } from './config/dtos/redisConfigGroup.dto';
 import { ExceptionsModule } from './exceptions/exceptions.module';
-import { HealthCheckModule } from './healthCheck/healthCheck.module';
+import { HealthCheckModule } from './health-check/health-check.module';
 import { LoggerModule } from './logger/logger.module';
-import { PackageJsonModule } from './packageJson/packageJson.module';
+import { PackageJsonModule } from './package-json/package-json.module';
 import { PostgresModule } from './postgres/postgres.module';
 import { QueueModule } from './queue/queue.module';
 import { RedisModule } from './redis/redis.module';

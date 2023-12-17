@@ -2,9 +2,8 @@ import { DynamicModule, Module } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 
-import { ConfigDto } from './dtos';
-import { RedisConfigGroupDto } from './dtos/redisConfigGroup.dto';
-import { plainConfig } from './plainConfig';
+import { Config, RedisGroupConfig } from './dtos';
+import { plainConfig } from './plain-config';
 
 @Module({})
 export class ConfigModule {
@@ -14,31 +13,31 @@ export class ConfigModule {
       global: true,
       providers: [
         {
-          provide: ConfigDto,
+          provide: Config,
           useFactory: () => ConfigModule.configFactory(),
         },
         {
-          provide: RedisConfigGroupDto,
-          useFactory: (config: ConfigDto) => config.redisGroups,
-          inject: [ConfigDto],
+          provide: RedisGroupConfig,
+          useFactory: (config: Config) => config.redisGroups,
+          inject: [Config],
         },
       ],
-      exports: [ConfigDto, RedisConfigGroupDto],
+      exports: [Config, RedisGroupConfig],
     };
   }
 
-  private static async configFactory(): Promise<ConfigDto> {
+  private static async configFactory(): Promise<Config> {
     const config = await ConfigModule.loadConfig();
     await ConfigModule.validateConfig(config);
 
     return config;
   }
 
-  private static async loadConfig(): Promise<ConfigDto> {
-    return plainToInstance(ConfigDto, plainConfig);
+  private static async loadConfig(): Promise<Config> {
+    return plainToInstance(Config, plainConfig);
   }
 
-  private static async validateConfig(config: ConfigDto): Promise<void> {
+  private static async validateConfig(config: Config): Promise<void> {
     const errors = await validate(config, {
       whitelist: true,
       forbidNonWhitelisted: true,

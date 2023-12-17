@@ -4,7 +4,7 @@ import { PinoLogger } from 'nestjs-pino';
 
 import RedisClient from './redis.client';
 import { getRedisToken } from './utils';
-import { RedisConfigGroupDto, RedisConnectionName } from '../config/dtos/redisConfigGroup.dto';
+import { RedisConnectionName, RedisGroupConfig } from '../config/dtos/redis-group.config';
 
 export function createRedisProviders(
   optionsArray: (RedisOptions & { connectionName: RedisConnectionName })[],
@@ -12,7 +12,7 @@ export function createRedisProviders(
   return (optionsArray || []).map(({ connectionName, ...options }) => ({
     provide: getRedisToken(connectionName),
     useFactory: async (
-      redisConfigGroup: RedisConfigGroupDto,
+      redisConfigGroup: RedisGroupConfig,
       logger: PinoLogger,
     ) => {
       const redisConfig = redisConfigGroup[connectionName];
@@ -31,6 +31,6 @@ export function createRedisProviders(
 
       return redis;
     },
-    inject: [RedisConfigGroupDto, PinoLogger],
+    inject: [RedisGroupConfig, PinoLogger],
   }));
 }

@@ -3,13 +3,13 @@ import path from 'path';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { ConfigDto } from '../config';
+import { Config } from '../config';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      inject: [ConfigDto],
-      useFactory: (config: ConfigDto) => ({
+      inject: [Config],
+      useFactory: (config: Config) => ({
         type: 'postgres',
         entities: [path.join(__dirname, '..', '..', '**', 'entities', '*.entity{.ts,.js}')],
         logging: 'all',

@@ -1,2 +1,2 @@
-export * from './bullBoardAuth.middleware';
-export * from './bullBoardAuth.module';
+export * from './bull-board-auth.middleware';
+export * from './bull-board-auth.module';

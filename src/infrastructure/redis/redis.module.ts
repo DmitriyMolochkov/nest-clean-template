@@ -2,7 +2,7 @@ import { DynamicModule, Module } from '@nestjs/common';
 import { RedisOptions } from 'bullmq';
 
 import { createRedisProviders } from './redis.providers';
-import { RedisConnectionName } from '../config/dtos/redisConfigGroup.dto';
+import { RedisConnectionName } from '../config/dtos/redis-group.config';
 
 @Module({})
 export class RedisModule {

@@ -9,12 +9,12 @@ import { Logger, LoggerErrorInterceptor, PinoLogger } from 'nestjs-pino';
 import passport from 'passport';
 
 import { AppModule } from './app.module';
-import { ConfigDto } from './infrastructure/config';
-import { PackageJsonDto } from './infrastructure/packageJson';
+import { Config } from './infrastructure/config';
+import { PackageJson } from './infrastructure/package-json';
 
 function setupSwagger(app: NestExpressApplication): void {
-  const config = app.get(ConfigDto);
-  const packageJson = app.get(PackageJsonDto);
+  const config = app.get(Config);
+  const packageJson = app.get(PackageJson);
 
   const options = new DocumentBuilder()
     .setTitle(packageJson.name)
@@ -36,7 +36,7 @@ async function bootstrap() {
     },
   );
 
-  const config = app.get(ConfigDto);
+  const config = app.get(Config);
   const logger = await app.resolve(PinoLogger);
   logger.setContext('NestApplication');
 

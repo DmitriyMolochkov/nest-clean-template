@@ -5,7 +5,7 @@ import {
   BaseExceptionFilter,
   CatchAllExceptionFilter,
   UnauthorizedExceptionFilter,
-} from './exceptionFilters';
+} from './exception-filters';
 
 @Global()
 @Module({

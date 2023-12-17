@@ -1,4 +1,4 @@
-import { ProcessEnv as CurrentProcessEnv } from './ProcessEnv';
+import { ProcessEnv as CurrentProcessEnv } from './process-env.interface';
 
 declare global {
   namespace NodeJS {

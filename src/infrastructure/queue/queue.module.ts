@@ -4,8 +4,8 @@ import { BullModule } from '@nestjs/bullmq';
 import { Module } from '@nestjs/common';
 
 import { BullBoardAuthMiddleware, BullBoardAuthModule } from './auth';
-import { RedisConnectionName } from '../config/dtos/redisConfigGroup.dto';
-import { PackageJsonDto } from '../packageJson';
+import { RedisConnectionName } from '../config';
+import { PackageJson } from '../package-json';
 import RedisClient from '../redis/redis.client';
 import { getRedisToken } from '../redis/utils';
 
@@ -14,9 +14,9 @@ import { getRedisToken } from '../redis/utils';
     BullModule.forRootAsync({
       inject: [
         getRedisToken(RedisConnectionName.default),
-        PackageJsonDto,
+        PackageJson,
       ],
-      useFactory: (redis: RedisClient, packageJson: PackageJsonDto) => {
+      useFactory: (redis: RedisClient, packageJson: PackageJson) => {
         return ({
           connection: redis,
           prefix: `${packageJson.name}:job-queue`,

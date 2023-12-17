@@ -3,7 +3,7 @@ import { RedisOptions } from 'bullmq';
 import { Redis } from 'ioredis';
 import { PinoLogger } from 'nestjs-pino';
 
-import { RedisConnectionName } from '../config/dtos/redisConfigGroup.dto';
+import { RedisConnectionName } from '../config/dtos/redis-group.config';
 
 export default class RedisClient extends Redis implements OnApplicationShutdown {
   public constructor(

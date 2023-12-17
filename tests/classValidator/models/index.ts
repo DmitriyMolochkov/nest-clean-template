@@ -1,5 +1,5 @@
-import UserCreateModel from './UserCreate.model';
-import UserSex from './UserSex.enum';
+import UserCreateModel from './user-create.model';
+import UserSex from './user-sex.enum';
 
 export {
   UserCreateModel,
