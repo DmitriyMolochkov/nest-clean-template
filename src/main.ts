@@ -1,26 +1,31 @@
-import { join } from 'path';
+import path from 'path';
 
 import { ValidationPipe, VersioningType } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { ExpressAdapter, NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import RedisStore from 'connect-redis';
 import session from 'express-session';
+import { Redis } from 'ioredis';
 import { Logger, LoggerErrorInterceptor, PinoLogger } from 'nestjs-pino';
 import passport from 'passport';
 
 import { AppModule } from './app.module';
-import { Config } from './infrastructure/config';
+import { BusinessExceptionFilter } from './common/exceptions/business-exception.filter';
+import { ValidationException } from './common/exceptions/business-exceptions';
+import { Config, HttpConfig, RedisConnectionName } from './infrastructure/config';
 import { PackageJson } from './infrastructure/package-json';
+import { getRedisToken } from './infrastructure/redis/utils';
 
 function setupSwagger(app: NestExpressApplication): void {
-  const config = app.get(Config);
+  const config = app.get(HttpConfig);
   const packageJson = app.get(PackageJson);
 
   const options = new DocumentBuilder()
     .setTitle(packageJson.name)
     .setVersion(packageJson.version)
     .setDescription(packageJson.description)
-    .addServer(config.http.swaggerServer)
+    .addServer(config.swaggerServer)
     .addBearerAuth()
     .build();
 
@@ -50,18 +55,28 @@ async function bootstrap() {
     new ValidationPipe({
       transform: true,
       whitelist: true,
+      exceptionFactory: (errors) => new ValidationException(errors),
     }),
   );
+  const { httpAdapter } = app.get(HttpAdapterHost);
+  app.useGlobalFilters(new BusinessExceptionFilter(httpAdapter));
+
+  const redisClient = app.get<Redis>(getRedisToken(RedisConnectionName.default));
+  const packageJson = app.get(PackageJson);
   app.use(
     session({
       secret: config.sessionKey,
       resave: false,
       saveUninitialized: false,
+      store: new RedisStore({
+        client: redisClient,
+        prefix: `${packageJson.name}:sess:`,
+      }),
     }),
   );
   app.use(passport.initialize());
   app.use(passport.session());
-  app.setBaseViewsDir(join(__dirname, '../..', 'views'));
+  app.setBaseViewsDir(path.join(__dirname, '..', '..', 'views'));
   app.setViewEngine('ejs');
 
   setupSwagger(app);

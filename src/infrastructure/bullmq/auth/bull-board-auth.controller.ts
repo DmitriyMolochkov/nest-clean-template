@@ -17,7 +17,7 @@ export class BullBoardAuthController {
   @Get('/auth')
   public view(@Req() req: Request, @Res() res: Response): void {
     if (req.isAuthenticated()) {
-      return res.redirect('/bull/queues');
+      return res.redirect('queues');
     }
 
     return res.render('auth');
@@ -27,6 +27,6 @@ export class BullBoardAuthController {
   @UseGuards(LocalAuthGuard)
   @Post('/login')
   public login(@Res() res: Response): void {
-    return res.redirect('/bull/queues');
+    return res.redirect('queues');
   }
 }

@@ -21,10 +21,10 @@ $ docker-compose exec app npm run migration:run
 - Swagger documentation url [/api](http://127.0.0.1:8080/api) or [/api-json](http://127.0.0.1:8080/api-json)
 
 ## Healthchecks
-- Healthchecks api url [/health](http://127.0.0.1:8080/health)
+- Healthchecks api url [/api/health](http://127.0.0.1:8080/api/health)
 
 ## BullMQ Board
-- UI url [/bull/queues](http://127.0.0.1:8080/bull/queues)
+- UI url [/api/bull/queues](http://127.0.0.1:8080/api/bull/queues)
 - Default login/password - bull/bull or change envs **BULL_BOARD_USERNAME** and **BULL_BOARD_PASSWORD**
 
 ## Other

@@ -17,7 +17,7 @@ implements ExceptionFilter<UnauthorizedException> {
     const { message } = exception;
 
     if (request.originalUrl.includes('/bull')) {
-      response.redirect('/bull/auth');
+      response.redirect('auth');
     } else {
       response.status(status).json({
         statusCode: status,

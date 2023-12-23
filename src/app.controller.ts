@@ -1,7 +1,5 @@
-import { InjectQueue } from '@nestjs/bullmq';
 import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Queue } from 'bullmq';
 
 @ApiTags('App')
 @Controller({
@@ -9,13 +7,9 @@ import { Queue } from 'bullmq';
   version: '1',
 })
 export class AppController {
-  public constructor(@InjectQueue('app') private readonly appQueue: Queue) {}
-
   @Get()
   public async hello(): Promise<string> {
     const greeting = 'Hello world!';
-
-    await this.appQueue.add('greetings', { greeting }, { delay: 5000 });
 
     return greeting;
   }

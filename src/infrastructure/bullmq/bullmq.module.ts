@@ -32,4 +32,4 @@ import { BullBoardAuthMiddleware, BullBoardAuthModule } from './auth';
     BullBoardAuthModule,
   ],
 })
-export class QueueModule {}
+export class BullMQModule {}
