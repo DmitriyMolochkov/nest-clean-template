@@ -1,5 +1,7 @@
 import { DynamicModule, Module } from '@nestjs/common';
 
+import { NotesModule } from 'notes/notes.module';
+
 import { AppController } from './app.controller';
 
 @Module({})
@@ -15,6 +17,7 @@ export class AppModule {
       providers: [],
       imports: [
         InfrastructureModule,
+        NotesModule,
       ],
     };
   }
