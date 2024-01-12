@@ -1,11 +1,10 @@
 import { errorToObject } from 'common/utils';
 
 import { BaseJobWorker } from './base-job.worker';
-import { IBullRepeatableJobOptions } from './bullmq.interfaces';
-import { buildJobRemovalOptions } from './utils';
+import { IBullRepeatableJobOptions, IQueueDefinition, JobReturnType } from './bullmq.interfaces';
 
-export abstract class BaseRepeatableJobWorker<ReturnType = void>
-  extends BaseJobWorker<undefined, ReturnType> {
+export abstract class BaseRepeatableJobWorker<Q extends IQueueDefinition<undefined>>
+  extends BaseJobWorker<IQueueDefinition<undefined, JobReturnType<Q>>> {
   protected readonly abstract jobOptions: IBullRepeatableJobOptions;
 
   public async onApplicationBootstrap() {
@@ -19,10 +18,7 @@ export abstract class BaseRepeatableJobWorker<ReturnType = void>
       await this.queue.add(
         'job',
         undefined,
-        {
-          ...this.jobOptions,
-          ...buildJobRemovalOptions(this.jobOptions),
-        },
+        this.jobOptions,
       );
     } catch (error) {
       this.logger.error(

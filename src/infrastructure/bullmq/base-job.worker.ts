@@ -1,22 +1,30 @@
 import { OnWorkerEvent, WorkerHost } from '@nestjs/bullmq';
 import { OnApplicationBootstrap } from '@nestjs/common';
-import { Job, Queue, Worker } from 'bullmq';
-import { WorkerListener } from 'bullmq/dist/esm/classes/worker';
+import { Job } from 'bullmq';
 import { PinoLogger } from 'nestjs-pino';
 
 import { errorToObject } from 'common/utils';
 
+import {
+  IQueueDefinition,
+  JobData,
+  JobReturnType,
+  TypedJob,
+  TypedQueue,
+  TypedWorker,
+  TypedWorkerListener,
+} from './bullmq.interfaces';
 import { hideContentIfNeeded } from './utils';
 
-export abstract class BaseJobWorker<DataType = undefined, ReturnType = void>
-  extends WorkerHost<Worker<DataType, ReturnType>>
+export abstract class BaseJobWorker<Q extends IQueueDefinition>
+  extends WorkerHost<TypedWorker<Q>>
   implements OnApplicationBootstrap {
   protected readonly abstract type: string;
   protected readonly abstract haveSensitiveData: boolean;
 
   public constructor(
     protected readonly logger: PinoLogger,
-    protected readonly queue: Queue<DataType, ReturnType>,
+    protected readonly queue: TypedQueue<Q>,
   ) {
     super();
     this.onQueueEvents();
@@ -66,7 +74,7 @@ export abstract class BaseJobWorker<DataType = undefined, ReturnType = void>
   }
 
   @OnWorkerEvent('active')
-  protected onActive(...[job]: Parameters<WorkerListener<DataType, ReturnType>['active']>) {
+  protected onActive(...[job]: Parameters<TypedWorkerListener<Q>['active']>) {
     this.logger.info(
       {
         type: this.type,
@@ -80,7 +88,7 @@ export abstract class BaseJobWorker<DataType = undefined, ReturnType = void>
 
   @OnWorkerEvent('completed')
   protected async onCompleted(
-    ...[job, result]: Parameters<WorkerListener<DataType, ReturnType>['completed']>
+    ...[job, result]: Parameters<TypedWorkerListener<Q>['completed']>
   ) {
     this.logger.info(
       {
@@ -112,7 +120,7 @@ export abstract class BaseJobWorker<DataType = undefined, ReturnType = void>
 
   @OnWorkerEvent('failed')
   protected async onFailed(
-    ...[job, error]: Parameters<WorkerListener<DataType, ReturnType>['failed']>
+    ...[job, error]: Parameters<TypedWorkerListener<Q>['failed']>
   ) {
     this.logger.error(
       {
@@ -144,7 +152,7 @@ export abstract class BaseJobWorker<DataType = undefined, ReturnType = void>
   }
 
   @OnWorkerEvent('error')
-  protected onError(...[failedReason]: Parameters<WorkerListener<DataType, ReturnType>['error']>) {
+  protected onError(...[failedReason]: Parameters<TypedWorkerListener<Q>['error']>) {
     this.logger.error(
       {
         type: this.type,
@@ -154,17 +162,17 @@ export abstract class BaseJobWorker<DataType = undefined, ReturnType = void>
     );
   }
 
-  public abstract process(job: Job<DataType, ReturnType>, token?: string): Promise<ReturnType>;
+  public abstract process(job: TypedJob<Q>, token?: string): Promise<JobReturnType<Q>>;
 
   protected async completeHandler(
-    _job: Job<DataType, ReturnType>,
-    _result: ReturnType,
+    _job: Job<JobData<Q>, JobReturnType<Q>>,
+    _result: JobReturnType<Q>,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
   ): Promise<void> {
   }
 
   protected async errorHandler(
-    _job: Job<DataType, ReturnType>,
+    _job: TypedJob<Q>,
     _error: Error,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
   ): Promise<void> {

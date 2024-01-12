@@ -1,8 +1,11 @@
-import { JobsOptions, KeepJobs, WorkerOptions } from 'bullmq';
+import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
+import { BullBoardModule, BullBoardQueueOptions } from '@bull-board/nestjs';
+import { BullModule, RegisterQueueOptions } from '@nestjs/bullmq';
+import { DefaultJobOptions, KeepJobs, WorkerOptions } from 'bullmq';
 import { QueueEventsOptions } from 'bullmq/dist/esm/interfaces/queue-options';
 import { RepeatOptions } from 'bullmq/dist/esm/interfaces/repeat-options';
 
-import { IBullJobRemoveOptions } from './bullmq.interfaces';
+import { IBullJobRemoveOptions, IQueueDefinition } from './bullmq.interfaces';
 
 export function hideContentIfNeeded<T>(content: T, haveSensitiveData: boolean) {
   return haveSensitiveData ? '[HIDDEN]' : content;
@@ -45,15 +48,14 @@ export function buildQueueEventOptions(queueEventOptions: QueueEventsOptions = {
   return options;
 }
 
-export function buildJobOptions(
-  options: JobsOptions,
-): JobsOptions {
+export function buildDefaultJobOptions(
+  options: DefaultJobOptions = {},
+): DefaultJobOptions {
   return {
     backoff: options.backoff ?? {
       delay: 60 * 1000, // 1 minute
       type: 'exponential',
     },
-    attempts: options.attempts ?? 1,
     ...options,
     ...buildJobRemovalOptions(options),
   };
@@ -64,4 +66,23 @@ export function getNeverRepeatOptions(): Required<Pick<RepeatOptions, 'limit'>> 
   return {
     limit: 0,
   };
+}
+
+export const createQueue = <Data, ReturnType = unknown>(
+  name: string,
+  options: Omit<RegisterQueueOptions, 'name'> = { defaultJobOptions: buildDefaultJobOptions() },
+): IQueueDefinition<Data, ReturnType> => ({ ...options, name });
+
+export function registerBullQueue(...queues: ReturnType<typeof createQueue>[]) {
+  return [
+    BullModule.registerQueue(...queues),
+    BullBoardModule.forFeature(
+      ...queues.map(
+        (q): BullBoardQueueOptions => ({
+          name: q.name,
+          adapter: BullMQAdapter,
+        }),
+      ),
+    ),
+  ];
 }
