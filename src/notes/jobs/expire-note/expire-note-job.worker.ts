@@ -1,32 +1,27 @@
 import { InjectQueue, Processor } from '@nestjs/bullmq';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 
-import { BaseJobWorker, buildWorkerOptions } from 'infrastructure/bullmq';
+import { BaseJobWorker, TypedQueue, buildWorkerOptions } from 'infrastructure/bullmq';
 
-import { NoteJobName } from '../../enums';
 import { NotesService } from '../../notes.service';
-import {
-  DataType,
-  ExpireNoteJobQueue,
-  ExpireNoteJobWorkerType,
-  ReturnType,
-} from '../expire-note-job.types';
+import { ExpireNoteJobQueue } from '../expire-note-job.queue';
 
-@Processor(NoteJobName.expireNote, buildWorkerOptions())
-export class ExpireNoteJobWorker extends BaseJobWorker<DataType, ReturnType> {
+@Processor(ExpireNoteJobQueue.name, buildWorkerOptions())
+export class ExpireNoteJobWorker extends BaseJobWorker<typeof ExpireNoteJobQueue> {
   protected readonly haveSensitiveData = false;
 
-  protected readonly type = NoteJobName.expireNote;
+  protected readonly type = ExpireNoteJobQueue.name;
 
   public constructor(
     @InjectPinoLogger(ExpireNoteJobWorker.name) protected readonly logger: PinoLogger,
-    @InjectQueue(NoteJobName.expireNote) protected readonly expireNoteJobQueue: ExpireNoteJobQueue,
+    @InjectQueue(ExpireNoteJobQueue.name)
+    protected readonly expireNoteJobQueue: TypedQueue<typeof ExpireNoteJobQueue>,
     protected readonly noteService: NotesService,
   ) {
     super(logger, expireNoteJobQueue);
   }
 
-  public async process(...[job]: Parameters<ExpireNoteJobWorkerType['process']>) {
+  public async process(...[job]: Parameters<BaseJobWorker<typeof ExpireNoteJobQueue>['process']>) {
     const note = await this.noteService.getById(job.data.id);
 
     await this.noteService.expireNote(note);
@@ -37,7 +32,7 @@ export class ExpireNoteJobWorker extends BaseJobWorker<DataType, ReturnType> {
   }
 
   public async completeHandler(
-    ...[job, result]: Parameters<ExpireNoteJobWorkerType['completeHandler']>
+    ...[job, result]: Parameters<BaseJobWorker<typeof ExpireNoteJobQueue>['completeHandler']>
   ) {
     this.logger.info(
       {
@@ -48,7 +43,9 @@ export class ExpireNoteJobWorker extends BaseJobWorker<DataType, ReturnType> {
     );
   }
 
-  public async errorHandler(...[job, error]: Parameters<ExpireNoteJobWorkerType['errorHandler']>) {
+  public async errorHandler(
+    ...[job, error]: Parameters<BaseJobWorker<typeof ExpireNoteJobQueue>['errorHandler']>
+  ) {
     this.logger.error(
       {
         id: job.data.id,

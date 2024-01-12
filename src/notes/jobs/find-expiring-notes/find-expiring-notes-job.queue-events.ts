@@ -3,11 +3,11 @@ import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 
 import { BaseJobQueueEvents, buildQueueEventOptions } from 'infrastructure/bullmq';
 
-import { NoteJobName } from '../../enums';
+import { ExpireNoteJobQueue } from '../expire-note-job.queue';
 
-@QueueEventsListener(NoteJobName.findExpiringNotes, buildQueueEventOptions())
+@QueueEventsListener(ExpireNoteJobQueue.name, buildQueueEventOptions())
 export class FindExpiringNotesJobQueueEvents extends BaseJobQueueEvents {
-  protected readonly type = NoteJobName.findExpiringNotes;
+  protected readonly type = ExpireNoteJobQueue.name;
 
   public constructor(
     @InjectPinoLogger(FindExpiringNotesJobQueueEvents.name) protected readonly logger: PinoLogger,

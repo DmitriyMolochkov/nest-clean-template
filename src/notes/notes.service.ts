@@ -1,6 +1,7 @@
-import { InjectQueue } from '@nestjs/bullmq';
+import { InjectFlowProducer, InjectQueue } from '@nestjs/bullmq';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { FlowProducer } from 'bullmq';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 import {
   Between,
@@ -13,17 +14,19 @@ import {
   Repository,
 } from 'typeorm';
 
-import { buildJobOptions, notFinishedJobTypes } from 'infrastructure/bullmq';
+import { JobData, TypedQueue, notFinishedJobTypes } from 'infrastructure/bullmq';
 
 import { NoteEntity } from './entities';
-import { NoteJobName, NoteStatus } from './enums';
+import { NoteStatus } from './enums';
 import {
   ExampleNoteException,
   NoteAccessException,
   NoteDuplicationException,
   NoteNotFoundException,
 } from './exceptions/business-exceptions';
-import { ExpireNoteJobQueue } from './jobs/expire-note-job.types';
+import { ExpireNoteJobQueue } from './jobs/expire-note-job.queue';
+import { Step1JobQueue } from './jobs/step1-job.queue';
+import { Step2JobQueue } from './jobs/step2-job.queue';
 import {
   NoteCreateModel,
   NotePatchModel,
@@ -37,7 +40,9 @@ export class NotesService {
   public constructor(
     @InjectPinoLogger(NotesService.name) private readonly logger: PinoLogger,
     @InjectRepository(NoteEntity) private readonly noteRepository: Repository<NoteEntity>,
-    @InjectQueue(NoteJobName.expireNote) private readonly expireNoteJobQueue: ExpireNoteJobQueue,
+    @InjectQueue(ExpireNoteJobQueue.name)
+    private readonly expireNoteJobQueue: TypedQueue<typeof ExpireNoteJobQueue>,
+    @InjectFlowProducer('my-first-flow-producer') private readonly flowProducer: FlowProducer,
   ) {}
 
   private getSearchFilter(query: NoteQuery) {
@@ -78,6 +83,29 @@ export class NotesService {
   }
 
   public async getById(id: NoteEntity['id']) {
+    await this.flowProducer.add(
+      {
+        queueName: Step2JobQueue.name,
+        name: 'job',
+        data: { count: 0 } satisfies JobData<typeof Step2JobQueue>,
+        children: [{
+          queueName: Step1JobQueue.name,
+          name: 'job',
+          data: { count: 0 } satisfies JobData<typeof Step1JobQueue>,
+          opts: { failParentOnFailure: true },
+        }],
+      },
+      {
+        queuesOptions: {
+          [Step1JobQueue.name]: {
+            defaultJobOptions: Step1JobQueue.defaultJobOptions,
+          },
+          [Step2JobQueue.name]: {
+            defaultJobOptions: Step2JobQueue.defaultJobOptions,
+          },
+        },
+      },
+    );
     const note = await this.noteRepository.findOne({ where: { id } });
     if (!note) {
       throw new NoteNotFoundException(id);
@@ -218,9 +246,9 @@ export class NotesService {
       {
         id: note.id,
       },
-      buildJobOptions({
+      {
         delay: getDelayToExpire(note),
-      }),
+      },
     );
   }
 
