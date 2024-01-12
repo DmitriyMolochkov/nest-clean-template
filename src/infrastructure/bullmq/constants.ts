@@ -1,6 +1,6 @@
 import { JobType } from 'bullmq';
 
-export const notFinishedJobTypes: JobType[] = [
+export const notFinishedJobTypes = [
   'active',
   'delayed',
   'prioritized',
@@ -9,4 +9,4 @@ export const notFinishedJobTypes: JobType[] = [
   'paused',
   'repeat',
   'wait',
-];
+] satisfies JobType[];
