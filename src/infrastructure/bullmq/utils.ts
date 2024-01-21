@@ -68,7 +68,7 @@ export function getNeverRepeatOptions(): Required<Pick<RepeatOptions, 'limit'>> 
   };
 }
 
-export const createQueue = <Data, ReturnType = unknown>(
+export const createQueue = <Data, ReturnType = void>(
   name: string,
   options: Omit<RegisterQueueOptions, 'name'> = { defaultJobOptions: buildDefaultJobOptions() },
 ): IQueueDefinition<Data, ReturnType> => ({ ...options, name });
