@@ -13,10 +13,10 @@ export function createRedisProviders(
   return (optionsArray || []).map(({ connectionName, ...options }) => ({
     provide: getRedisToken(connectionName),
     useFactory: async (
-      redisConfigGroup: RedisGroupConfig,
+      redisGroupConfig: RedisGroupConfig,
       logger: PinoLogger,
     ) => {
-      const redisConfig = redisConfigGroup[connectionName];
+      const redisConfig = redisGroupConfig[connectionName];
       const redis = new RedisClient(
         connectionName,
         {
