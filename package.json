@@ -30,6 +30,7 @@
     "@bull-board/express": "^5.9.1",
     "@bull-board/nestjs": "^5.9.1",
     "@nestjs/bullmq": "^10.1.0",
+    "@nestjs/bullmq-wrapper": "git+ssh://git@gitlab.onlanta.ru/packages/nestjs-bullmq-wrapper#v0.0.1",
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/jwt": "^10.1.1",
