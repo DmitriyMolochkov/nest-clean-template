@@ -188,7 +188,7 @@ export class NotesService {
       throw new NoteNotFoundException(id);
     }
 
-    await note.remove();
+    await this.noteRepository.remove(note);
 
     this.logger.info({ id }, `${NoteEntity.name} removed`);
 

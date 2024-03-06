@@ -1,5 +1,4 @@
 import {
-  BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
@@ -11,7 +10,7 @@ import { NoteStatus } from 'notes/enums/note-status.enum';
 import { MAX_DESCRIPTION_LENGTH, MAX_TEXT_LENGTH, MAX_TITLE_LENGTH } from 'notes/notes.constants';
 
 @Entity({ name: 'notes' })
-export default class NoteEntity extends BaseEntity {
+export default class NoteEntity {
   @PrimaryGeneratedColumn()
   public id!: number;
 
