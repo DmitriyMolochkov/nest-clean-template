@@ -17,7 +17,10 @@ export class BullBoardAuthController {
   @Get('/auth')
   public view(@Req() req: Request, @Res() res: Response): void {
     if (req.isAuthenticated()) {
-      return res.redirect('queues');
+      const indexOfBull = req.originalUrl.indexOf('/bull');
+      const prefix = req.originalUrl.substring(0, indexOfBull);
+
+      return res.redirect(`${prefix}/bull/queues`);
     }
 
     return res.render('auth');
