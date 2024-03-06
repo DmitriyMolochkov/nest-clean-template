@@ -1,7 +1,6 @@
 import { InjectQueue, Processor } from '@nestjs/bullmq';
+import { BaseJobWorker, TypedQueue, buildWorkerOptions } from '@nestjs/bullmq-wrapper';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
-
-import { BaseJobWorker, TypedQueue, buildWorkerOptions } from 'infrastructure/bullmq';
 
 import { NotesService } from '../../notes.service';
 import { ExpireNoteJobQueue } from '../expire-note-job.queue';

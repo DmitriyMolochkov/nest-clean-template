@@ -1,7 +1,6 @@
 import { InjectQueue, Processor } from '@nestjs/bullmq';
+import { BaseJobWorker, TypedQueue, buildWorkerOptions } from '@nestjs/bullmq-wrapper';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
-
-import { BaseJobWorker, TypedQueue, buildWorkerOptions } from 'infrastructure/bullmq';
 
 import { Step1JobQueue } from '../step1-job.queue';
 

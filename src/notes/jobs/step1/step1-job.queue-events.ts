@@ -1,7 +1,6 @@
 import { QueueEventsListener } from '@nestjs/bullmq';
+import { BaseJobQueueEvents, buildQueueEventOptions } from '@nestjs/bullmq-wrapper';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
-
-import { BaseJobQueueEvents, buildQueueEventOptions } from 'infrastructure/bullmq';
 
 import { Step1JobQueue } from '../step1-job.queue';
 

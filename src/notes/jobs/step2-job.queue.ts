@@ -1,4 +1,5 @@
-import { createQueue } from '../../infrastructure/bullmq';
+import { createQueue } from '@nestjs/bullmq-wrapper';
+
 import { NoteJobName } from '../enums';
 
 export type JobData = { count: number };

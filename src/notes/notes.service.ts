@@ -1,4 +1,5 @@
 import { InjectFlowProducer, InjectQueue } from '@nestjs/bullmq';
+import { JobData, TypedQueue, notFinishedJobTypes } from '@nestjs/bullmq-wrapper';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FlowProducer } from 'bullmq';
@@ -13,8 +14,6 @@ import {
   Not,
   Repository,
 } from 'typeorm';
-
-import { JobData, TypedQueue, notFinishedJobTypes } from 'infrastructure/bullmq';
 
 import { NoteEntity } from './entities';
 import { NoteStatus } from './enums';

@@ -1,4 +1,10 @@
 import { InjectQueue, Processor } from '@nestjs/bullmq';
+import {
+  BaseRepeatableJobWorker,
+  TypedQueue,
+  buildWorkerOptions,
+  notFinishedJobTypes,
+} from '@nestjs/bullmq-wrapper';
 import { InjectRepository } from '@nestjs/typeorm';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 import {
@@ -7,13 +13,6 @@ import {
   Not,
   Repository,
 } from 'typeorm';
-
-import {
-  BaseRepeatableJobWorker,
-  TypedQueue,
-  buildWorkerOptions,
-  notFinishedJobTypes,
-} from 'infrastructure/bullmq';
 
 import { CronExpression } from '../../../common/enum';
 import { NoteEntity } from '../../entities';
