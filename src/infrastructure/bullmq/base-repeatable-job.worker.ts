@@ -3,8 +3,8 @@ import { errorToObject } from 'common/utils';
 import { BaseJobWorker } from './base-job.worker';
 import { IBullRepeatableJobOptions, IQueueDefinition, JobReturnType } from './bullmq.interfaces';
 
-export abstract class BaseRepeatableJobWorker<Q extends IQueueDefinition<undefined>>
-  extends BaseJobWorker<IQueueDefinition<undefined, JobReturnType<Q>>> {
+export abstract class BaseRepeatableJobWorker<Q extends IQueueDefinition<string, undefined>>
+  extends BaseJobWorker<IQueueDefinition<string, undefined, JobReturnType<Q>>> {
   protected readonly abstract jobOptions: IBullRepeatableJobOptions;
 
   public async onApplicationBootstrap() {

@@ -1,8 +1,11 @@
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
 import { BullBoardModule, BullBoardQueueOptions } from '@bull-board/nestjs';
 import { BullModule, RegisterQueueOptions } from '@nestjs/bullmq';
-import { DefaultJobOptions, KeepJobs, WorkerOptions } from 'bullmq';
-import { QueueEventsOptions } from 'bullmq/dist/esm/interfaces/queue-options';
+import {
+  NestQueueEventOptions,
+} from '@nestjs/bullmq/dist/interfaces/queue-event-options.interface';
+import { NestWorkerOptions } from '@nestjs/bullmq/dist/interfaces/worker-options.interface';
+import { DefaultJobOptions, KeepJobs } from 'bullmq';
 import { RepeatOptions } from 'bullmq/dist/esm/interfaces/repeat-options';
 
 import { IBullJobRemoveOptions, IQueueDefinition } from './bullmq.interfaces';
@@ -28,8 +31,8 @@ export function buildJobRemovalOptions(opts: IBullJobRemoveOptions) {
   };
 }
 
-export function buildWorkerOptions(workerOptions: WorkerOptions = {}) {
-  const options: WorkerOptions = {
+export function buildWorkerOptions(workerOptions: NestWorkerOptions = {}) {
+  const options: NestWorkerOptions = {
     autorun: false,
     concurrency: workerOptions.concurrency ?? 1,
     maxStalledCount: workerOptions.maxStalledCount ?? 10,
@@ -39,8 +42,8 @@ export function buildWorkerOptions(workerOptions: WorkerOptions = {}) {
   return options;
 }
 
-export function buildQueueEventOptions(queueEventOptions: QueueEventsOptions = {}) {
-  const options: QueueEventsOptions = {
+export function buildQueueEventOptions(queueEventOptions: NestQueueEventOptions = {}) {
+  const options: NestQueueEventOptions = {
     autorun: false,
     ...queueEventOptions,
   };
@@ -68,10 +71,10 @@ export function getNeverRepeatOptions(): Required<Pick<RepeatOptions, 'limit'>> 
   };
 }
 
-export const createQueue = <Data, ReturnType = void>(
-  name: string,
+export const createQueue = <JobType extends string, Data, ReturnType = void>(
+  name: JobType,
   options: Omit<RegisterQueueOptions, 'name'> = { defaultJobOptions: buildDefaultJobOptions() },
-): IQueueDefinition<Data, ReturnType> => ({ ...options, name });
+): IQueueDefinition<JobType, Data, ReturnType> => ({ ...options, name });
 
 export function registerBullQueue(...queues: ReturnType<typeof createQueue>[]) {
   return [

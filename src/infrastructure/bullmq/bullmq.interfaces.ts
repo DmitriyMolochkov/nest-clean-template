@@ -20,19 +20,24 @@ export interface IBullRepeatableJobOptions extends IBullJobRemoveOptions {
 }
 
 // eslint-disable-next-line unused-imports/no-unused-vars
-export interface IQueueDefinition<Data = unknown, ReturnType = unknown>
+export interface IQueueDefinition<
+  JobType = string, /* eslint-disable unused-imports/no-unused-vars  */
+  Data = unknown,
+  ReturnType = unknown, /*  eslint-enable unused-imports/no-unused-vars */
+>
   extends Omit<RegisterQueueOptions, 'name'> {
-  name: string;
+  name: JobType;
 }
 
-export interface IRepeatableQueueDefinition<ReturnType = unknown>
-  extends IQueueDefinition<undefined, ReturnType> {}
+export interface IRepeatableQueueDefinition<JobType extends string, ReturnType = unknown>
+  extends IQueueDefinition<JobType, undefined, ReturnType> {}
 
-export type JobData<Q extends IQueueDefinition> = Q extends IQueueDefinition<infer Data>
+export type JobData<Q extends IQueueDefinition> = Q extends IQueueDefinition<string, infer Data>
   ? Data
   : never;
 
 export type JobReturnType<Q extends IQueueDefinition> = Q extends IQueueDefinition<
+    string,
     unknown,
     infer ReturnType
   >
