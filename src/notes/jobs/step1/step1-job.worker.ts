@@ -14,17 +14,14 @@ export class Step1JobWorker extends BaseJobWorker<typeof Step1JobQueue> {
   public constructor(
     @InjectPinoLogger(Step1JobWorker.name) protected readonly logger: PinoLogger,
     @InjectQueue(Step1JobQueue.name)
-    protected readonly expireNoteJobQueue: TypedQueue<typeof Step1JobQueue>,
+    protected readonly step1JobQueue: TypedQueue<typeof Step1JobQueue>,
   ) {
-    super(logger, expireNoteJobQueue);
+    super(logger, step1JobQueue);
   }
 
   public async process(...[job]: Parameters<(BaseJobWorker<typeof Step1JobQueue>['process'])>) {
     const { count } = job.data;
-    // await wait(30_000);
-    if (new Date().getTime() > 0) {
-      throw new Error('ha-ha-ha');
-    }
+
     return {
       count: count + 1,
     };

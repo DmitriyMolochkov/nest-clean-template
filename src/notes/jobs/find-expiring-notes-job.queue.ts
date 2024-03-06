@@ -8,6 +8,7 @@ export type JobReturnType = {
 };
 
 export const FindExpiringNotesJobQueue = createQueue<
+  NoteJobName.findExpiringNotes,
   undefined,
   JobReturnType
 >(NoteJobName.findExpiringNotes);
