@@ -1,0 +1,3 @@
+[submodule "modules/nest-clean-template-dtos"]
+	path = modules/nest-clean-template-dtos
+	url = https://github.com/dmitriymolochkov/nest-clean-template-dtos.git
